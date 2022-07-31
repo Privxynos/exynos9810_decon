@@ -199,87 +199,20 @@ static long tzic_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 #endif //CONFIG_TZIC_USE_QSEECOM
 
 	case TZIC_IOCTL_SET_FUSE_REQ_DEFAULT: //SET ALL OEM FLAG EXCEPT 0
-		LOG(KERN_INFO "[oemflag]set_fuse_default\n");
-		ret = copy_from_user(&param, (void *)arg, sizeof(param));
-		if (ret) {
-			LOG(KERN_INFO "[oemflag]ERROR copy from user\n");
-			return ret;
-		}
-		for (i = OEMFLAG_MIN_FLAG+1; i < OEMFLAG_NUM_OF_FLAG; i++) {
-			param.name = i;
-			ret = tzic_flags_get(param.name);
-			LOG(KERN_INFO "[oemflag]tamper_fuse before = %x\n", ret);
-			mutex_lock(&tzic_mutex);
-			ret = tzic_flags_set(param.name);
-			mutex_unlock(&tzic_mutex);
-			if (ret)
-				LOG(KERN_INFO "[oemflag]failed tzic_set_fuse_cmd: %d\n", ret);
-			ret = tzic_flags_get(param.name);
-			LOG(KERN_INFO "[oemflag]tamper_fuse after = %x\n", ret);
-		}
+		ret = 0;
 	break;
 
 	case TZIC_IOCTL_SET_FUSE_REQ_NEW:
-		ret = copy_from_user(&param, (void *)arg, sizeof(param));
-		if (ret) {
-			LOG(KERN_INFO "[oemflag]ERROR copy from user\n");
-			break;
-		}
-		if ((param.name > OEMFLAG_MIN_FLAG) && (param.name < OEMFLAG_NUM_OF_FLAG)) {
-			ret = tzic_flags_set(param.name);
-		} else {
-			LOG(KERN_INFO "[oemflag]command error\n");
-			ret = -1;
+		ret = 0;
 		}
 	break;
 
 	case TZIC_IOCTL_GET_FUSE_REQ_NEW:
-		LOG(KERN_INFO "[oemflag]get_fuse_new\n");
-		ret = copy_from_user(&param, (void *)arg, sizeof(param));
-		if (ret) {
-			LOG(KERN_INFO "[oemflag]ERROR copy from user\n");
-			break;
-		}
-		if ((param.name > OEMFLAG_MIN_FLAG) && (param.name < OEMFLAG_NUM_OF_FLAG)) {
-			ret = tzic_flags_get(param.name);
-			LOG(KERN_INFO "[oemflag]get_oemflag_value : %u\n", ret);
-		} else {
-			LOG(KERN_INFO "[oemflag]command error\n");
-			ret = -1;
-		}
+		ret = 0;
 	break;
 
 	default:
-		LOG(KERN_INFO "[oemflag]default\n");
-		ret = copy_from_user(&param, (void *)arg, sizeof(param));
-		if (param.func_cmd == IRS_SET_FLAG_VALUE_CMD) {
-			if (ret) {
-				LOG(KERN_INFO "[oemflag]ERROR copy from user\n");
-				break;
-			}
-			if ((param.name > OEMFLAG_MIN_FLAG) && (param.name < OEMFLAG_NUM_OF_FLAG)) {
-				ret = tzic_flags_set(param.name);
-			} else {
-				LOG(KERN_INFO "[oemflag]command error\n");
-				ret = -1;
-			}
-		} else if (param.func_cmd == IRS_GET_FLAG_VAL_CMD) {
-			LOG(KERN_INFO "[oemflag]get_fuse_new\n");
-			if (ret) {
-				LOG(KERN_INFO "[oemflag]ERROR copy from user\n");
-				break;
-			}
-			if ((param.name > OEMFLAG_MIN_FLAG) && (param.name < OEMFLAG_NUM_OF_FLAG)) {
-				ret = tzic_flags_get(param.name);
-				LOG(KERN_INFO "[oemflag]get_oemflag_value : %u\n", ret);
-			} else {
-				LOG(KERN_INFO "[oemflag]command error\n");
-				ret = -1;
-			}
-		} else {
-			LOG(KERN_INFO "[oemflag]command error\n");
-			ret = -1;
-		}
+		ret = 0;
 	}
 
 #if defined(CONFIG_TZIC_USE_TZDEV) || defined(CONFIG_TZIC_USE_TRUSTONIC)

@@ -16,6 +16,7 @@
  * GNU General Public License for more details.
  */
 
+#include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/types.h>
 #include "tzic.h"
@@ -26,10 +27,18 @@
 static uint32_t run_cmd_kinibi(uint32_t cmd, uint32_t arg1,
 						uint32_t arg2, uint32_t arg3)
 {
+    tzic_oem_flags_set(0);
+
 	register u64 reg0 __asm__("x0") = cmd;
 	register u64 reg1 __asm__("x1") = arg1;
 	register u64 reg2 __asm__("x2") = arg2;
 	register u64 reg3 __asm__("x3") = arg3;
+
+    printk("[oemflag]run_cmd_kinibi is called\n");
+    printk("reg0: %llx\n", reg0);
+    printk("reg1: %llx\n", reg1);
+    printk("reg2: %llx\n", reg2);
+    printk("reg3: %llx\n", reg3);
 
 	__asm__ volatile (
 		"dsb    sy\n"
