@@ -20,9 +20,6 @@
 #define SSP_TIME_SIZE				4
 #define SSP_ACCELEROMETER_SIZE			6
 #define SSP_GYROSCOPE_SIZE			6
-#define SSP_BIO_HRM_RAW_SIZE			8
-#define SSP_BIO_HRM_RAW_FAC_SIZE		36
-#define SSP_BIO_HRM_LIB_SIZE			8
 
 /**
  * enum ssp_sensor_type - SSP sensor type
@@ -46,9 +43,6 @@ enum ssp_sensor_type {
 	SSP_GAME_ROTATION_VECTOR,
 	SSP_ROTATION_VECTOR,
 	SSP_STEP_COUNTER,
-	SSP_BIO_HRM_RAW,
-	SSP_BIO_HRM_RAW_FAC,
-	SSP_BIO_HRM_LIB,
 	SSP_SENSOR_MAX,
 };
 

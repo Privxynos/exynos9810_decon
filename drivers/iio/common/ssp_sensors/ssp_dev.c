@@ -559,8 +559,6 @@ static int ssp_probe(struct spi_device *spi)
 		data->check_status[i] = SSP_INITIALIZATION_STATE;
 	}
 
-	data->delay_buf[SSP_BIO_HRM_LIB] = 100;
-
 	data->time_syncing = true;
 
 	mutex_init(&data->pending_lock);
